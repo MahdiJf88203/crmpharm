@@ -79,7 +79,7 @@
     <section class="fade-up bg-white/90 dark:bg-zinc-900/70 rounded-3xl shadow-2xl shadow-black/10 ring-1 ring-black/5 dark:ring-white/10 p-6 sm:p-8 mt-12 backdrop-blur">
       <header class="mb-6 text-center">
         <h1 class="text-3xl font-extrabold tracking-tight">فرم ثبت اطلاعات</h1>
-        <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">نام، نام خانوادگی و شماره تماس <span class="font-semibold">الزامی</span> هستند — بقیه اختیاری.</p>
+        <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">نام، نام خانوادگی و شماره تماس <span class="font-semibold">الزامی</span> هستند — کد ملی اختیاری است.</p>
       </header>
 
       <div id="alert" class="hidden mb-4 rounded-xl border p-3 text-sm"></div>
@@ -135,6 +135,7 @@
     </section>
   </main>
 
+  <!-- اسکریپت اصلی (ماژول) -->
   <script type="module">
     import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
@@ -234,13 +235,60 @@
         setLoading(false);
       }
     });
+  </script>
 
-    // پارتیکل‌ها
-    const canvas = document.getElementById('particles');
-    const ctx = canvas.getContext('2d');
-    let w, h, dpr, stars = [], rafId = null;
-    function resize(){
-      dpr = window.devicePixelRatio || 1; w = canvas.clientWidth = window.innerWidth; h = canvas.clientHeight = window.innerHeight;
-      canvas.width = Math.floor(w * dpr); canvas.height = Math.floor(h * dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
-      const target = Math.min(120, Math.floor((w*h)/25000));
-      stars = Array.from({length: target}, () => ({ x: Math.random()*w, y: Math.random()*h, r: Math.random()*1.6+0.4, vx: (Math.random()-.5)*0.2, vy: (Math.random()-.5)*0.
+  <!-- پارتیکل‌ها (اصلاح‌شده و مستقل از ماژول) -->
+  <script>
+    (() => {
+      const canvas = document.getElementById('particles');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let w, h, dpr, stars = [], rafId = null;
+
+      function resize(){
+        dpr = window.devicePixelRatio || 1;
+        w = canvas.clientWidth = window.innerWidth;
+        h = canvas.clientHeight = window.innerHeight;
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr,0,0,dpr,0,0);
+        const target = Math.min(120, Math.floor((w*h)/25000));
+        stars = Array.from({length: target}, () => ({
+          x: Math.random()*w,
+          y: Math.random()*h,
+          r: Math.random()*1.6+0.4,
+          vx: (Math.random()-.5)*0.2,
+          vy: (Math.random()-.5)*0.2,
+          a: Math.random()*0.5+0.3
+        }));
+      }
+
+      function draw(){
+        ctx.clearRect(0,0,w,h);
+        const isDark = document.documentElement.classList.contains('dark');
+        ctx.fillStyle = isDark ? 'rgba(255,255,255,0.9)' : 'rgba(0,0,0,0.8)';
+        for (const s of stars){
+          ctx.globalAlpha = s.a;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+          ctx.fill();
+          s.x += s.vx; s.y += s.vy;
+          if (s.x < -5) s.x = w+5; if (s.x > w+5) s.x = -5;
+          if (s.y < -5) s.y = h+5; if (s.y > h+5) s.y = -5;
+        }
+        rafId = requestAnimationFrame(draw);
+      }
+
+      function start(){
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        cancelAnimationFrame(rafId);
+        resize();
+        draw();
+      }
+
+      window.addEventListener('resize', resize);
+      start();
+    })();
+  </script>
+</body>
+</html>
