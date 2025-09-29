@@ -19,17 +19,6 @@
   <!-- فونت‌ها -->
   <link rel="preload" href="/fonts/BNazanin.woff2" as="font" type="font/woff2" crossorigin>
   <style>
-    @font-face{
-      font-family: 'BNazanin';
-      src: url('/fonts/BNazanin.woff2') format('woff2');
-      font-weight: 100 900;
-      font-style: normal;
-      font-display: swap;
-    }
-  </style>
-  <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.003/fonts/webfonts/Vazirmatn.css" rel="stylesheet">
-
-  <style>
     :root{ --blob1:#60a5fa; --blob2:#a78bfa; --blob3:#34d399; }
     .bg-animated{ background: linear-gradient(120deg,#0ea5e9,#7c3aed,#22c55e,#0ea5e9); background-size: 300% 300%; animation: gradientShift 18s ease infinite; }
     .dark .bg-animated{ background: linear-gradient(120deg,#0b1220,#1f1147,#0c2c21,#0b1220); }
@@ -49,8 +38,15 @@
     #particles{ position:fixed; inset:0; pointer-events:none; z-index:-5; opacity:.45; }
     .dark #particles{ opacity:.35 }
 
-    body{ font-family: 'BNazanin','Vazirmatn', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans Arabic", "Noto Naskh Arabic", sans-serif; }
+    body{ font-family: 'BNazanin','Vazirmatn', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans Arabic", "Noto Naskh Arabic", sans-serif; -webkit-text-size-adjust: 100%; padding-top: env(safe-area-inset-top); }
+    input, select, textarea { font-size: 16px; } /* جلوگیری از زوم ناخواسته موبایل */
     h1,h2,h3,h4,h5,h6{ font-weight:800 }
+
+    /* بهینه‌سازی موبایل: کاهش افکت‌های سنگین و جلوگیری از بریدگی محتوا */
+    @media (max-width: 640px){
+      .blob{ display:none }
+      .bg-animated{ animation: none }
+    }
 
     @media (prefers-reduced-motion: reduce){
       .bg-animated, .blob{ animation: none !important }
@@ -68,8 +64,8 @@
 
   <div id="netBanner" class="hidden bg-yellow-100/90 dark:bg-yellow-900/40 border border-yellow-300 dark:border-yellow-800 text-yellow-900 dark:text-yellow-200 px-4 py-2 text-sm text-center">شما آفلاین هستید؛ ارسال فرم ممکن نیست.</div>
 
-  <div class="fixed top-3 inset-x-0 flex justify-center">
-    <button id="themeToggle" class="px-3 py-1.5 rounded-full text-xs font-medium bg-white/80 dark:bg-zinc-900/70 shadow ring-1 ring-black/5 backdrop-blur hover:scale-[1.02] transition">
+  <div class="fixed top-[max(0.5rem,env(safe-area-inset-top))] inset-x-0 flex justify-center">
+    <button id="themeToggle" class="px-3 py-1.5 rounded-full text-xs font-medium bg-white/90 dark:bg-zinc-900/80 shadow ring-1 ring-black/5 backdrop-blur hover:scale-[1.02] transition">
       <span class="inline dark:hidden">🌙 حالت تیره</span>
       <span class="hidden dark:inline">☀️ حالت روشن</span>
     </button>
@@ -93,20 +89,20 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 fade-up fade-up-delay">
           <div class="group">
             <label for="first_name" class="block text-sm mb-1">نام *</label>
-            <input id="first_name" name="first_name" required class="w-full border border-zinc-200 dark:border-zinc-700 bg-white/80 dark:bg-zinc-800/60 rounded-2xl px-3 py-2 focus:outline-none focus:ring-4 focus:ring-indigo-200/70 dark:focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-sm group-hover:shadow" />
+            <input id="first_name" name="first_name" required class="w-full border border-zinc-200 dark:border-zinc-700 bg-white/95 dark:bg-zinc-800 rounded-2xl px-3 py-3 focus:outline-none focus:ring-4 focus:ring-indigo-200/70 dark:focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-sm group-hover:shadow" />
             <p data-err="first_name" class="hidden text-xs text-red-600 mt-1"></p>
           </div>
           <div class="group">
             <label for="last_name" class="block text-sm mb-1">نام خانوادگی *</label>
-            <input id="last_name" name="last_name" required class="w-full border border-zinc-200 dark:border-zinc-700 bg-white/80 dark:bg-zinc-800/60 rounded-2xl px-3 py-2 focus:outline-none focus:ring-4 focus:ring-indigo-200/70 dark:focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-sm group-hover:shadow" />
+            <input id="last_name" name="last_name" required class="w-full border border-zinc-200 dark:border-zinc-700 bg-white/95 dark:bg-zinc-800 rounded-2xl px-3 py-3 focus:outline-none focus:ring-4 focus:ring-indigo-200/70 dark:focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-sm group-hover:shadow" />
             <p data-err="last_name" class="hidden text-xs text-red-600 mt-1"></p>
           </div>
         </div>
 
         <div class="fade-up fade-up-delay">
           <label for="phone" class="block text-sm mb-1">شماره تماس *</label>
-          <input id="phone" name="phone" required inputmode="tel" placeholder="مثلاً 09123456789 یا +989123456789"
-                 class="w-full border border-zinc-200 dark:border-zinc-700 bg-white/80 dark:bg-zinc-800/60 rounded-2xl px-3 py-2 focus:outline-none focus:ring-4 focus:ring-indigo-200/70 dark:focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-sm" />
+          <input id="phone" name="phone" required inputmode="tel" placeholder="مثال: 0912xxxxxxx"
+                 class="w-full border border-zinc-200 dark:border-zinc-700 bg-white/95 dark:bg-zinc-800 rounded-2xl px-3 py-3 focus:outline-none focus:ring-4 focus:ring-indigo-200/70 dark:focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-sm" />
           <div class="flex items-center justify-between mt-1">
             <p class="text-xs text-gray-500 dark:text-gray-400">مجاز: 09xxxxxxxxx یا +989xxxxxxxxx</p>
             <p data-err="phone" class="hidden text-xs text-red-500"></p>
@@ -117,7 +113,7 @@
           <div class="group">
             <label for="national_id" class="block text-sm mb-1">کد ملی (اختیاری)</label>
             <input id="national_id" name="national_id" inputmode="numeric" maxlength="10" minlength="10"
-                   class="w-full border border-zinc-200 dark:border-zinc-700 bg-white/80 dark:bg-zinc-800/60 rounded-2xl px-3 py-2 focus:outline-none focus:ring-4 focus:ring-indigo-200/70 dark:focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-sm group-hover:shadow" />
+                   class="w-full border border-zinc-200 dark:border-zinc-700 bg-white/95 dark:bg-zinc-800 rounded-2xl px-3 py-3 focus:outline-none focus:ring-4 focus:ring-indigo-200/70 dark:focus:ring-indigo-500/30 focus:border-indigo-500 transition shadow-sm group-hover:shadow" />
             <p data-err="national_id" class="hidden text-xs text-red-500 mt-1"></p>
           </div>
         </div>
