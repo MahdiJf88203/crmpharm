@@ -3,6 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Preload فونت‌های Sahel برای بهبود عملکرد -->
+  <link rel="preload" href="fonts/Sahel.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="fonts/Sahel-Bold.woff" as="font" type="font/woff" crossorigin>
+  <link rel="preload" href="fonts/Sahel-Black.woff" as="font" type="font/woff" crossorigin>
+
   <title>فرم ثبت اطلاعات</title>
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -16,8 +21,65 @@
   </script>
   <meta name="color-scheme" content="light dark" />
 
-  <!-- فونت‌ها -->
-  <link rel="preload" href="/fonts/BNazanin.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- فونت‌های Sahel -->
+  <style>
+    /* تعریف فونت Sahel Regular */
+    @font-face {
+      font-family: 'Sahel';
+      src: url('fonts/Sahel.eot');
+      src: url('fonts/Sahel.eot?#iefix') format('embedded-opentype'),
+           url('fonts/Sahel.woff') format('woff'),
+           url('fonts/Sahel.ttf') format('truetype');
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* تعریف فونت Sahel Bold */
+    @font-face {
+      font-family: 'Sahel';
+      src: url('fonts/Sahel-Bold.eot');
+      src: url('fonts/Sahel-Bold.eot?#iefix') format('embedded-opentype'),
+           url('fonts/Sahel-Bold.woff') format('woff'),
+           url('fonts/Sahel-Bold.ttf') format('truetype');
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* تعریف فونت Sahel Black */
+    @font-face {
+      font-family: 'Sahel';
+      src: url('fonts/Sahel-Black.eot');
+      src: url('fonts/Sahel-Black.eot?#iefix') format('embedded-opentype'),
+           url('fonts/Sahel-Black.woff') format('woff'),
+           url('fonts/Sahel-Black.ttf') format('truetype');
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* اعمال فونت Sahel به تمام عناصر */
+    * {
+      font-family: 'Sahel', 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
+    }
+
+    body {
+      font-family: 'Sahel', 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
+      -webkit-text-size-adjust: 100%;
+      padding-top: env(safe-area-inset-top);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Sahel', 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
+      font-weight: 800;
+    }
+
+    input, select, textarea, button {
+      font-family: 'Sahel', 'Vazirmatn', 'Tahoma', 'Arial', sans-serif !important;
+    }
+  </style>
+
   <style>
     :root{ --blob1:#60a5fa; --blob2:#a78bfa; --blob3:#34d399; }
     .bg-animated{ background: linear-gradient(120deg,#0ea5e9,#7c3aed,#22c55e,#0ea5e9); background-size: 300% 300%; animation: gradientShift 18s ease infinite; }
@@ -38,7 +100,7 @@
     #particles{ position:fixed; inset:0; pointer-events:none; z-index:-5; opacity:.45; }
     .dark #particles{ opacity:.35 }
 
-    body{ font-family: 'BNazanin','Vazirmatn', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans Arabic", "Noto Naskh Arabic", sans-serif; -webkit-text-size-adjust: 100%; padding-top: env(safe-area-inset-top); }
+    /* body font-family در بخش فونت‌های Sahel تعریف شده است */
     input, select, textarea { font-size: 16px; } /* جلوگیری از زوم ناخواسته موبایل */
     h1,h2,h3,h4,h5,h6{ font-weight:800 }
 
@@ -126,7 +188,7 @@
           <span id="btnText">ارسال</span>
         </button>
 
-        <p class="text-xs text-gray-600 dark:text-gray-300 text-center">با ارسال این فرم، با ذخیره‌سازی داده‌ها در پایگاه‌داده مبتنی بر UTF‑8 موافقید.</p>
+        <p class="text-xs text-gray-600 dark:text-gray-300 text-center"></p>
       </form>
     </section>
   </main>
